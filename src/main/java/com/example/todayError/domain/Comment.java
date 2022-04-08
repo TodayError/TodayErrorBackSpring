@@ -28,10 +28,10 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private Long userId;
 
-    public Comment(CommentDto commentDto) {
-        this.postid = commentDto.getPostid();
-        this.nickname = commentDto.getNickname();
-        this.comment = commentDto.getComment();
+    public Comment(CommentDto requestDto) {
+        this.postid = requestDto.getPostid();
+        this.nickname = requestDto.getNickname();
+        this.comment = requestDto.getComment();
     }
 
     public Comment(CommentDto requestDto, String comment) {
@@ -40,10 +40,10 @@ public class Comment extends Timestamped {
         this.nickname = requestDto.getNickname();
     }
 
-    public Comment(CommentDto commentDto, Long userId) {
-        this.postid = commentDto.getPostid();
-        this.nickname = commentDto.getNickname();
-        this.comment = commentDto.getComment();
+    public Comment(CommentDto requestDto, Long userId) {
+        this.postid = requestDto.getPostid();
+        this.nickname = requestDto.getNickname();
+        this.comment = requestDto.getComment();
         this.userId = userId;
     }
 
