@@ -2,6 +2,7 @@ package com.example.todayError.dto;
 
 
 import com.example.todayError.domain.Category;
+import com.example.todayError.domain.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
