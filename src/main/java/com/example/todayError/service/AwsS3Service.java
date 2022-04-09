@@ -7,18 +7,13 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,28 +25,28 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    public ResponseEntity<String> uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(MultipartFile multipartFile) {
+
             ObjectMetadata objectMetadata = new ObjectMetadata();
             //objectMetaData에 파라미터로 들어온 파일의 타입 , 크기를 할당.
             objectMetadata.setContentType(multipartFile.getContentType());
             objectMetadata.setContentLength(multipartFile.getSize());
+
             //fileName에 파라미터로 들어온 파일의 이름을 할당.
             String fileName = multipartFile.getOriginalFilename();
 
             try(InputStream inputStream = multipartFile.getInputStream()) {
                 //amazonS3객체의 putObject 메서드로 db에 저장
-                amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                amazonS3.putObject(new PutObjectRequest(bucket, createFileName(fileName) , inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch(IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
-        ResponseEntity<String> response = new ResponseEntity(amazonS3.getUrl(bucket, fileName) , HttpStatus.OK);
-
-        return response;
+        return String.valueOf(amazonS3.getUrl(bucket,fileName));
     }
 
-    public String deleteFile(String fileName) {
-        amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
+    public String deleteFile(String fileUrl) {
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket , fileUrl));
         return "삭제완료";
     }
 

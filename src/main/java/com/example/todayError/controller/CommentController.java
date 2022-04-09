@@ -3,6 +3,7 @@ package com.example.todayError.controller;
 import com.example.todayError.dto.CommentDto;
 import com.example.todayError.repository.CommentRepository;
 import com.example.todayError.service.CommentService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class CommentController {
     private final CommentService commentService;
 
     // 댓글 작성
+    @ApiOperation(value = "댓글 Post", notes = "댓글을 저장합니다.")
     @PostMapping("/comment")
     public boolean createComment(@RequestBody CommentDto requestDto) {
 // 권한설정 완료되면 수정
@@ -32,6 +34,7 @@ public class CommentController {
     }
 
     // 댓글 수정
+    @ApiOperation(value = "댓글 Update", notes = "댓글을 수정합니다.")
     @PutMapping("/comment/{commentId}")
     public Long updateComment(@PathVariable Long commentId, @RequestBody CommentDto requestDto) {
         commentService.update(commentId, requestDto);
@@ -39,6 +42,7 @@ public class CommentController {
     }
 
     // 댓글 삭제
+    @ApiOperation(value = "댓글 Delete", notes = "댓글을 삭제합니다.")
     @DeleteMapping("/comment/{commentId}")
     public Long deleteReply(@PathVariable Long commentId) {
         commentRepository.deleteById(commentId);

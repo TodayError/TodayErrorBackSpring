@@ -4,7 +4,6 @@ import com.example.todayError.domain.User;
 import com.example.todayError.dto.UserDto.SignupRequestDto;
 import com.example.todayError.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     public void resisterUser(SignupRequestDto signupRequestDto) {
@@ -26,9 +25,9 @@ public class UserService {
         }
 
         // password 암호화
-        String enPassword = passwordEncoder.encode(signupRequestDto.getPassword());
-        User user = new User(signupRequestDto, enPassword);
-        userRepository.save(user);
+//        String enPassword = passwordEncoder.encode(signupRequestDto.getPassword());
+//        User user = new User(signupRequestDto, enPassword);
+//        userRepository.save(user);
     }
 
     public boolean nicknameCheck(String nickname) {
