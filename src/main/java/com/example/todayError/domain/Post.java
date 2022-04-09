@@ -40,4 +40,11 @@ public class Post extends Timestamped{
     //회원은 여러개의 게시글을 가질 수 있기에 manytoone
     @ManyToOne
     private User user;
+<<<<<<< HEAD
 }
+=======
+}
+
+
+
+>>>>>>> 48eae21d099f842fbd1ad4af8c1a8d0f6b4da642

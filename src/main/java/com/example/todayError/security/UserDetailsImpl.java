@@ -1,5 +1,4 @@
 package com.example.todayError.security;
-
 import com.example.todayError.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
