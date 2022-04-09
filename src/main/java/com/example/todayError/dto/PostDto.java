@@ -3,6 +3,7 @@ package com.example.todayError.dto;
 
 import com.example.todayError.domain.Category;
 import com.example.todayError.domain.Comment;
+import com.example.todayError.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class PostDto {
-
 
     private Long Id;
     private String nickName;
