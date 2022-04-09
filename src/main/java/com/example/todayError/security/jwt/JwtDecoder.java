@@ -16,7 +16,6 @@ import static com.example.todayError.security.jwt.JwtTokenUtils.*;
 @Component
 public class JwtDecoder {
 
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public String decodeUsername(String token) {

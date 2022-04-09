@@ -17,8 +17,12 @@ public class Comment extends Timestamped {
     private Long id;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Post post;
+
+//    @ManyToOne
+//    @Column(nullable = false)
+//    private Long postId;
 
     @Column(nullable = false)
     private String nickname;

@@ -11,5 +11,4 @@ public class TodayErrorApplication {
     public static void main(String[] args) {
         SpringApplication.run(TodayErrorApplication.class, args);
     }
-
 }
