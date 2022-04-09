@@ -55,12 +55,9 @@ public class PostService {
     @Transactional
     public ResponseEntity<String> update(Long postId , PostDto postDto) {
 
-        System.out.println("postId = " + postId);
-
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다.")
         );
-
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setCategory(postDto.getCategory());

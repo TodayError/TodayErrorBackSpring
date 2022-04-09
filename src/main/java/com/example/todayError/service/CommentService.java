@@ -1,19 +1,23 @@
 package com.example.todayError.service;
 
 import com.example.todayError.domain.Comment;
+import com.example.todayError.domain.Post;
 import com.example.todayError.dto.CommentDto;
 import com.example.todayError.repository.CommentRepository;
+import com.example.todayError.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
 
     //댓글 조회
@@ -23,6 +27,10 @@ public class CommentService {
 
     // 댓글작성
     public Comment createComment(CommentDto requestDto) {
+        Optional<Post> foundPost = postRepository.findById(requestDto.getPostId());
+
+        Post post = foundPost.get();
+
         String commentCheck = requestDto.getComment();
         if (commentCheck.contains("script")|| commentCheck.contains("<")||commentCheck.contains(">")){
 //            Comment comment = new Comment(requestDto, userId,"xss 안돼요,, 하지마세요ㅠㅠ");
