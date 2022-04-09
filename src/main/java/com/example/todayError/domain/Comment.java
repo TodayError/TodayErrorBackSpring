@@ -16,8 +16,9 @@ public class Comment extends Timestamped {
     @Id
     private Long id;
 
+    @ManyToOne
     @Column(nullable = false)
-    private Long postid;
+    private Post post;
 
     @Column(nullable = false)
     private String nickname;
@@ -29,26 +30,22 @@ public class Comment extends Timestamped {
     private Long userId;
 
     public Comment(CommentDto requestDto) {
-        this.postid = requestDto.getPostid();
         this.nickname = requestDto.getNickname();
         this.comment = requestDto.getComment();
     }
 
     public Comment(CommentDto requestDto, String comment) {
-        this.postid = requestDto.getPostid();
         this.comment = comment;
         this.nickname = requestDto.getNickname();
     }
 
     public Comment(CommentDto requestDto, Long userId) {
-        this.postid = requestDto.getPostid();
         this.nickname = requestDto.getNickname();
         this.comment = requestDto.getComment();
         this.userId = userId;
     }
 
     public Comment(CommentDto requestDto, Long userId, String comment) {
-        this.postid = requestDto.getPostid();
         this.comment = comment;
         this.nickname = requestDto.getNickname();
         this.userId = userId;
