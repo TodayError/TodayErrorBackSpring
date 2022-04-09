@@ -39,5 +39,4 @@ public class Post {
     //카테고리는 여러개의 게시글을 가질 수 있기에 manytoone
     @ManyToOne
     private Category category;
-
 }
