@@ -1,5 +1,4 @@
 package com.example.todayError.security.jwt;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.todayError.security.UserDetailsImpl;

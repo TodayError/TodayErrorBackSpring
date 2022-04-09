@@ -22,7 +22,7 @@ public class CommentService {
 
     //댓글 조회
     public List<Comment> getComment(Long postId) {
-        return commentRepository.findAllByPostidOrderByCreatedAtDesc(postId);
+        return commentRepository.findAllByPostOrderByCreatedAtDesc(postId);
     }
 
     // 댓글작성
