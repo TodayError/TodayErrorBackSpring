@@ -41,4 +41,11 @@ public class Post extends Timestamped{
     @ManyToOne
     private User user;
 
+<<<<<<< HEAD
 }
+=======
+    //카테고리는 여러개의 게시글을 가질 수 있기에 manytoone
+    @ManyToOne
+    private Category category;
+}
+>>>>>>> edd3d7330911f2cb8b39450bbe7b19a3ee8f8162

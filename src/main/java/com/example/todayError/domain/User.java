@@ -1,6 +1,5 @@
 package com.example.todayError.domain;
 
-import com.example.todayError.dto.UserDto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class User {
+public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +20,18 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(SignupRequestDto signupRequestDto, String encodePassword) {
-        this.nickname = signupRequestDto.getNickname();
-        this.password = encodePassword;
+    @Column(unique = true)
+    private Long kakaoId;
+
+    public User(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
+        this.kakaoId = null;
+    }
+
+    public User(String nickname, String password, Long kakaoId) {
+        this.nickname = nickname;
+        this.password = password;
+        this.kakaoId = kakaoId;
     }
 }
