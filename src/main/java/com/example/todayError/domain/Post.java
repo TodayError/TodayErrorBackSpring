@@ -1,22 +1,21 @@
 package com.example.todayError.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
-public class Post {
+@Data
+@Entity
+public class Post extends Timestamped{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
     @Column
@@ -28,6 +27,12 @@ public class Post {
     @Column
     private String content;
 
+    @Column
+    private String img;
+
+    @Column
+    private String category;
+
     //게시글은 여러개의 댓글을 가질 수 있기에 onetomany
     @OneToMany
     private List<Comment> comment;
@@ -36,7 +41,11 @@ public class Post {
     @ManyToOne
     private User user;
 
+<<<<<<< HEAD
+}
+=======
     //카테고리는 여러개의 게시글을 가질 수 있기에 manytoone
     @ManyToOne
     private Category category;
 }
+>>>>>>> edd3d7330911f2cb8b39450bbe7b19a3ee8f8162
