@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,9 +25,10 @@ public class PostService {
         Post savePost = Post.builder()
                 .nickName(postDto.getNickName())
                 .title(postDto.getTitle())
-                .img(awsS3Service.uploadFile(multipartFile))
+                .imageUrl(awsS3Service.uploadFile(multipartFile))
                 .content(postDto.getContent())
                 .category(postDto.getCategory())
+                .completed(postDto.getCompleted())
                 .build();
                  postRepository.save(savePost);
         return new ResponseEntity(savePost.getNickName() , HttpStatus.OK);
@@ -34,8 +36,21 @@ public class PostService {
 
     @Transactional
     public ResponseEntity getAllPost() {
-        List<Post> allPost = postRepository.findAll();
-        return new ResponseEntity(allPost , HttpStatus.OK);
+        List<Post> posts = postRepository.findAll();
+        List<PostDto.MainResponse> postReponse = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDto.MainResponse postDto = PostDto.MainResponse.builder()
+                    .nickName(post.getNickName())
+                    .title(post.getTitle())
+                    .category(post.getCategory())
+                    .createdAt(String.valueOf(post.getCreatedAt()))
+                    .completed(post.getCompleted())
+                    .imageUrl(post.getImageUrl())
+                    .build();
+            postReponse.add(postDto);
+        }
+        return new ResponseEntity(postReponse , HttpStatus.OK);
     }
 
     @Transactional
@@ -71,7 +86,7 @@ public class PostService {
                 () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다.")
         );
         postRepository.delete(post);
-        awsS3Service.deleteFile(post.getImg());
+        awsS3Service.deleteFile(post.getImageUrl());
         return new ResponseEntity("삭제완료" , HttpStatus.OK);
     }
 }
