@@ -1,18 +1,29 @@
 package com.example.todayerror.service;
 
 import com.example.todayerror.domain.Post;
+import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.repository.PostRepository;
+<<<<<<< HEAD
+import com.example.todayerror.repository.UserRepository;
+import com.example.todayerror.validator.PostValidator;
+=======
 import com.example.todayerror.service.AwsS3Service;
+>>>>>>> 9be7c7af23281f296848466cb821fd0cec0d15ef
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
+import java.time.format.DateTimeFormatter;
+=======
 import javax.transaction.Transactional;
+>>>>>>> 9be7c7af23281f296848466cb821fd0cec0d15ef
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -20,74 +31,106 @@ public class PostService {
 
     private final AwsS3Service awsS3Service;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<String> save(MultipartFile multipartFile , PostDto postDto) {
-        Post savePost = Post.builder()
-                .nickName(postDto.getNickName())
-                .title(postDto.getTitle())
-                .imageUrl(awsS3Service.uploadFile(multipartFile))
-                .content(postDto.getContent())
-                .category(postDto.getCategory())
-                .completed(postDto.getCompleted())
-                .build();
-                 postRepository.save(savePost);
-        return new ResponseEntity(savePost.getNickName() , HttpStatus.OK);
+    public ResponseEntity<String> save(MultipartFile multipartFile, PostDto.SaveRequest postDto, User user) {
+        PostValidator.validatePostSaveRegister(postDto , multipartFile , user);
+        Map<String, String> map = awsS3Service.uploadFile(multipartFile);
+        User joinUser = userRepository.findByUsername(user.getUsername()).orElseThrow(
+                () -> new IllegalArgumentException("유효한 회원을 찾을 수 없습니다.")
+        );
+        postDto.setUser(joinUser);
+        postDto.setNickName(joinUser.getUsername());
+        postDto.setImageUrl(map.get("url"));
+        postDto.setImageName(map.get("fileName"));
+        Post post = postDto.toEntity();
+        postRepository.save(post);
+
+        return new ResponseEntity("게시글 저장이 정상적으로 완료되었습니다.", HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity getAllPost() {
+    public ResponseEntity<PostDto> getAllPost(){
         List<Post> posts = postRepository.findAll();
         List<PostDto.MainResponse> postReponse = new ArrayList<>();
-
         for (Post post : posts) {
             PostDto.MainResponse postDto = PostDto.MainResponse.builder()
                     .nickName(post.getNickName())
                     .title(post.getTitle())
                     .category(post.getCategory())
-                    .createdAt(String.valueOf(post.getCreatedAt()))
                     .completed(post.getCompleted())
+                    .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(post.getCreatedAt()))
                     .imageUrl(post.getImageUrl())
                     .build();
             postReponse.add(postDto);
         }
-        return new ResponseEntity(postReponse , HttpStatus.OK);
+        return new ResponseEntity(postReponse, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> getCategoryPost(String category) {
+    public ResponseEntity<PostDto> getCategoryPost(String category) {
         List<Post> getCategoryPost = postRepository.findByCategory(category);
-        return new ResponseEntity(getCategoryPost , HttpStatus.OK);
+        List<PostDto.MainResponse> categoryResponse = new ArrayList<>();
+        for (Post post : getCategoryPost) {
+            PostDto.MainResponse postDto = PostDto.MainResponse.builder()
+                    .nickName(post.getNickName())
+                    .title(post.getTitle())
+                    .category(post.getCategory())
+                    .completed(post.getCompleted())
+                    .imageUrl(post.getImageUrl())
+                    .build();
+            categoryResponse.add(postDto);
+        }
+        return new ResponseEntity(categoryResponse, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<Post> getPostDeatils(Long postId){
-        Post getDetailPost = postRepository.findById(postId).orElseThrow(
+    public ResponseEntity<PostDto> getPostDeatils(Long postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("찾으시는 게시물이 존재하지 않습니다.")
         );
-        return new ResponseEntity(getDetailPost , HttpStatus.OK);
+        PostDto.DetailResponse postDto = PostDto.DetailResponse
+                .builder()
+                .nickName(post.getNickName())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .imageUrl(post.getImageUrl())
+                .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(post.getCreatedAt()))
+                .completed(post.getCompleted())
+                .comment(post.getComment())
+                .build();
+
+        return new ResponseEntity(postDto, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> update(Long postId , PostDto postDto) {
-
+    public ResponseEntity<String> update(Long postId, MultipartFile multipartFile, PostDto.PutRequest postDto) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다.")
         );
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
-        post.setCategory(postDto.getCategory());
+        awsS3Service.deleteFile(post.getImageFilename());
+        Map<String, String> map = awsS3Service.uploadFile(multipartFile);
+        post = post.builder()
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .imageUrl(map.get("url"))
+                .category(postDto.getCategory())
+                .completed(postDto.getCompleted())
+                .imageFilename(map.get("fileName"))
+                .build();
         postRepository.save(post);
-
-        return new ResponseEntity(post , HttpStatus.OK);
+        return new ResponseEntity("게시글 수정이 정상적으로 완료되었습니다.", HttpStatus.OK);
     }
 
+    //Delete Complete
+    @Transactional
     public ResponseEntity<String> delete(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다.")
-        );
+                () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다."));
         postRepository.delete(post);
-        awsS3Service.deleteFile(post.getImageUrl());
-        return new ResponseEntity("삭제완료" , HttpStatus.OK);
+        awsS3Service.deleteFile(post.getImageFilename());
+        return new ResponseEntity("게시글 삭제가 정상적으로 완료되었습니다.", HttpStatus.OK);
     }
 }

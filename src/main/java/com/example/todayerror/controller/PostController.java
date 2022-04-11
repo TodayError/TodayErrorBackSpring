@@ -1,9 +1,11 @@
 package com.example.todayerror.controller;
-import com.example.todayerror.domain.Post;
+
+import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,19 +28,22 @@ public class PostController {
     }
 
     @GetMapping("details/{postId}")
-    public ResponseEntity<Post> getPostDetails(@PathVariable Long postId){
+    public ResponseEntity<PostDto> getPostDetails(@PathVariable Long postId){
         return postService.getPostDeatils(postId);
     }
 
     @PostMapping("/file")
-    public ResponseEntity<String> postUpload(@RequestPart("file") MultipartFile multipartFile ,
-                                             @RequestPart("information") PostDto postDto){
-        return postService.save(multipartFile , postDto);
+    public ResponseEntity<String> postSave(@RequestPart("file") MultipartFile multipartFile ,
+                                             @RequestPart("information") PostDto.SaveRequest postDto ,
+                                             @AuthenticationPrincipal User user){
+        return postService.save(multipartFile , postDto , user);
     }
 
     @PutMapping("/posts/{postId}")
-    public ResponseEntity<String> postUpdate(@PathVariable Long postId , @RequestBody PostDto postDto){
-        return postService.update(postId , postDto);
+    public ResponseEntity<String> postUpdate(@PathVariable("postId") Long postId ,
+                                             @RequestPart("file") MultipartFile multipartFile,
+                                             @RequestPart("information") PostDto.PutRequest postDto){
+        return postService.update(postId , multipartFile , postDto);
     }
 
     @DeleteMapping("/posts/{postId}")
