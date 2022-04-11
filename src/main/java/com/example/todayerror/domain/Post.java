@@ -32,6 +32,9 @@ public class Post extends Timestamped{
     private String imageUrl;
 
     @Column
+    private String imageFilename;
+
+    @Column
     private String category;
 
     @Column(columnDefinition = "boolean default false")

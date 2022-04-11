@@ -126,7 +126,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // main 페이지 허용
         skipPathList.add("GET,/api/**");
+
+        // post 페이지 허용
         skipPathList.add("POST,/api/**");
+        skipPathList.add("PUT,/api/**");
+        skipPathList.add("DELETE,/api/**");
 
         // Swagger
         skipPathList.add("GET, /swagger-ui.html");
