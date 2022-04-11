@@ -3,13 +3,14 @@ package com.example.todayerror.service;
 import com.example.todayerror.domain.Post;
 import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.repository.PostRepository;
+import com.example.todayerror.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
