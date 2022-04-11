@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://54.180.105.154:3000")
 public class KakaoUserController {
 
     private final KakaoUserService kakaoUserService;
