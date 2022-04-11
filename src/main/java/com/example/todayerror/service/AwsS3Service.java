@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.UUID;
 
 @Service
@@ -37,11 +39,14 @@ public class AwsS3Service {
 
             try(InputStream inputStream = multipartFile.getInputStream()) {
                 //amazonS3객체의 putObject 메서드로 db에 저장
-                amazonS3.putObject(new PutObjectRequest(bucket, createFileName(fileName) , inputStream, objectMetadata)
+                amazonS3.putObject(new PutObjectRequest(bucket, fileName , inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch(IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
+        URL uri = amazonS3.getUrl(bucket , fileName);
+        System.out.println("uri = " + uri);
+
         return String.valueOf(amazonS3.getUrl(bucket,fileName));
     }
 
