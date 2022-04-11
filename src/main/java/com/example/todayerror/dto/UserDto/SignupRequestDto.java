@@ -1,8 +1,6 @@
 package com.example.todayerror.dto.UserDto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class SignupRequestDto {

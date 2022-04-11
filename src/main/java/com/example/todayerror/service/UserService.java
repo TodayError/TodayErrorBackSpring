@@ -14,7 +14,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public void registerUser(SignupRequestDto signupRequestDto) {
+    public boolean registerUser(SignupRequestDto signupRequestDto) {
 
         // nickname이 username
         String nickname = signupRequestDto.getNickname();
@@ -29,6 +29,8 @@ public class UserService {
         // 유저 생성 후 DB 저장
         User user = new User(signupRequestDto, enPassword);
         userRepository.save(user);
+
+        return true;
     }
 
     // 닉네임 중복 확인

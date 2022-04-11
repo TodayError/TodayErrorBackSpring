@@ -41,3 +41,4 @@ out/
 ### my yml###
 src/main/resources/application.yml
 src/main/resources/application.properties
+src/main/java/com/example/todayerror/aws/AwsS3Config.java

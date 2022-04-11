@@ -4,7 +4,6 @@ import com.example.todayerror.service.KakaoUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://54.180.105.154:3000")
 public class KakaoUserController {
 
     private final KakaoUserService kakaoUserService;
