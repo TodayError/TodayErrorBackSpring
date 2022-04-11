@@ -4,23 +4,17 @@ import com.example.todayerror.domain.Post;
 import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.repository.PostRepository;
-<<<<<<< HEAD
 import com.example.todayerror.repository.UserRepository;
 import com.example.todayerror.validator.PostValidator;
-=======
 import com.example.todayerror.service.AwsS3Service;
->>>>>>> 9be7c7af23281f296848466cb821fd0cec0d15ef
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD
 import java.time.format.DateTimeFormatter;
-=======
 import javax.transaction.Transactional;
->>>>>>> 9be7c7af23281f296848466cb821fd0cec0d15ef
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
