@@ -26,7 +26,11 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
         UsernamePasswordAuthenticationToken authRequest;
         try {
             JsonNode requestBody = objectMapper.readTree(request.getInputStream());
+<<<<<<< HEAD
             String username = requestBody.get("nickName").asText();
+=======
+            String username = requestBody.get("nickname").asText();
+>>>>>>> 9be7c7af23281f296848466cb821fd0cec0d15ef
             String password = requestBody.get("password").asText();
             authRequest = new UsernamePasswordAuthenticationToken(username, password); // 인증 객체 생성
         } catch (Exception e) {
