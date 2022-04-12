@@ -7,7 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostValidator {
     public static void validatePostSaveRegister(PostDto.SaveRequest postDto , MultipartFile multipartFile, User user) {
         User validUser = user;
-        String nickName = user.getUsername();
+//        String nickName = user.getUsername();
+        String nickName = "한글1";
         String title = postDto.getTitle();
         String content = postDto.getContent();
         String category = postDto.getCategory();

@@ -5,10 +5,13 @@ import com.example.todayerror.domain.Post;
 import com.example.todayerror.dto.CommentDto;
 import com.example.todayerror.repository.CommentRepository;
 import com.example.todayerror.repository.PostRepository;
+import com.example.todayerror.security.UserDetailsImpl;
+import com.example.todayerror.validator.CommentValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,20 +29,18 @@ public class CommentService {
     }
 
     // 댓글작성
+    @Transactional
     public Comment createComment(CommentDto requestDto) {
-        Optional<Post> foundPost = postRepository.findById(requestDto.getPostId());
+        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow(
+                () -> new NullPointerException("게시글이 존재하지 않습니다.")
+        );
+//        CommentValidator.validateCommentSaveRegister(requestDto);
+//        String commentChanger = CommentValidator.xssChecker(requestDto);
 
-        Post post = foundPost.get();
-
-        String commentCheck = requestDto.getComment();
-        if (commentCheck.contains("script")|| commentCheck.contains("<")||commentCheck.contains(">")){
-//            Comment comment = new Comment(requestDto, userId,"xss 안돼요,, 하지마세요ㅠㅠ");
-            Comment comment = new Comment(requestDto, "xss 안돼요,, 하지마세요ㅠㅠ");
-            commentRepository.save(comment);
-            return comment;
-        }
-//        Comment comment = new Comment(requestDto, userId);
-        Comment comment = new Comment(requestDto);
+        Comment comment = Comment.builder()
+                .comment(requestDto.getComment())
+                .post(post)
+                .build();
         commentRepository.save(comment);
         return comment;
     }
@@ -50,6 +51,24 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않습니다.")
         );
-        comment.update(requestDto);
+        comment = comment.builder()
+                .comment(requestDto.getComment())
+                .build();
+        commentRepository.save(comment);
     }
+
+    // 댓글 삭제
+    public HashMap<String, Long> deleteComment(Long commentId, UserDetailsImpl userDetails) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 존재하지 않습니다."));
+        if(comment.getUser().getUsername().equals(userDetails.getUsername())){
+            // 댓글 삭제 후 삭제한 댓글의 ID 리턴
+            HashMap<String, Long> responseId = new HashMap<>();
+            responseId.put("commentId", comment.getId());
+            commentRepository.deleteById(commentId);
+            return responseId;
+        } else{
+            throw new IllegalArgumentException("댓글 삭제에 실패하였습니다.");
+        }
+    }
+
 }
