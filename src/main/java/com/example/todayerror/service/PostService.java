@@ -6,15 +6,15 @@ import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.repository.PostRepository;
 import com.example.todayerror.repository.UserRepository;
 import com.example.todayerror.validator.PostValidator;
-import com.example.todayerror.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.format.DateTimeFormatter;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,23 +29,24 @@ public class PostService {
 
     @Transactional
     public ResponseEntity<String> save(MultipartFile multipartFile, PostDto.SaveRequest postDto, User user) {
-        PostValidator.validatePostSaveRegister(postDto , multipartFile , user);
+        PostValidator.validatePostSaveRegister(postDto, multipartFile, user);
         Map<String, String> map = awsS3Service.uploadFile(multipartFile);
         User joinUser = userRepository.findByUsername(user.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("유효한 회원을 찾을 수 없습니다.")
         );
-        postDto.setUser(joinUser);
-        postDto.setNickName(joinUser.getUsername());
-        postDto.setImageUrl(map.get("url"));
-        postDto.setImageName(map.get("fileName"));
         Post post = postDto.toEntity();
+        post = post.builder()
+                .imageFilename(map.get("fileName"))
+                .imageUrl(map.get("url"))
+                .user(user)
+                .nickName(user.getUsername())
+                .build();
         postRepository.save(post);
-
         return new ResponseEntity("게시글 저장이 정상적으로 완료되었습니다.", HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<PostDto> getAllPost(){
+    public ResponseEntity<PostDto> getAllPost() {
         List<Post> posts = postRepository.findAll();
         List<PostDto.MainResponse> postReponse = new ArrayList<>();
         for (Post post : posts) {
@@ -54,7 +55,7 @@ public class PostService {
                     .title(post.getTitle())
                     .category(post.getCategory())
                     .completed(post.getCompleted())
-                    .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(post.getCreatedAt()))
+                    .createdAt(formmater(post.getCreatedAt()))
                     .imageUrl(post.getImageUrl())
                     .build();
             postReponse.add(postDto);
@@ -67,10 +68,12 @@ public class PostService {
         List<Post> getCategoryPost = postRepository.findByCategory(category);
         List<PostDto.MainResponse> categoryResponse = new ArrayList<>();
         for (Post post : getCategoryPost) {
-            PostDto.MainResponse postDto = PostDto.MainResponse.builder()
+            PostDto.MainResponse postDto = PostDto.MainResponse
+                    .builder()
                     .nickName(post.getNickName())
                     .title(post.getTitle())
                     .category(post.getCategory())
+                    .createdAt(formmater(post.getCreatedAt()))
                     .completed(post.getCompleted())
                     .imageUrl(post.getImageUrl())
                     .build();
@@ -81,7 +84,6 @@ public class PostService {
 
     @Transactional
     public ResponseEntity<PostDto> getPostDeatils(Long postId) {
-
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("찾으시는 게시물이 존재하지 않습니다.")
         );
@@ -91,40 +93,37 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .imageUrl(post.getImageUrl())
-                .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(post.getCreatedAt()))
+                .createdAt(formmater(post.getCreatedAt()))
                 .completed(post.getCompleted())
-                .comment(post.getComment())
                 .build();
-
         return new ResponseEntity(postDto, HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<String> update(Long postId, MultipartFile multipartFile, PostDto.PutRequest postDto) {
+        PostValidator.validatePostPutRegister(multipartFile, postDto);
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다.")
-        );
+                () -> new NullPointerException("찾으시는 게시글이 존재하지 않습니다."));
         awsS3Service.deleteFile(post.getImageFilename());
         Map<String, String> map = awsS3Service.uploadFile(multipartFile);
-        post = post.builder()
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .imageUrl(map.get("url"))
-                .category(postDto.getCategory())
-                .completed(postDto.getCompleted())
-                .imageFilename(map.get("fileName"))
-                .build();
+        post = postDto.toEntity();
+        post.setImageUrl(map.get("url"));
+        post.setImageFilename(map.get("fileName"));
         postRepository.save(post);
-        return new ResponseEntity("게시글 수정이 정상적으로 완료되었습니다.", HttpStatus.OK);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 
     //Delete Complete
     @Transactional
     public ResponseEntity<String> delete(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("찾으시는 게시글이 존재하지 않습니다."));
+                () -> new NullPointerException("찾으시는 게시글이 존재하지 않습니다."));
         postRepository.delete(post);
         awsS3Service.deleteFile(post.getImageFilename());
-        return new ResponseEntity("게시글 삭제가 정상적으로 완료되었습니다.", HttpStatus.OK);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    public String formmater(LocalDateTime localDateTime){
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(localDateTime);
     }
 }
