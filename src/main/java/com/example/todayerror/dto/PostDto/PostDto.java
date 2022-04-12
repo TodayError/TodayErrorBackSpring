@@ -1,11 +1,8 @@
 package com.example.todayerror.dto.PostDto;
 
-import com.example.todayerror.domain.Comment;
 import com.example.todayerror.domain.Post;
 import com.example.todayerror.domain.User;
 import lombok.*;
-
-import java.util.List;
 
 public class PostDto {
 
@@ -15,23 +12,15 @@ public class PostDto {
     @Data
     @Getter
     public static class SaveRequest {
-        private User user;
-        private String nickName;
         private String title;
         private String content;
-        private String imageUrl;
-
-        private String imageName;
         private Boolean completed;
         private String category;
 
         public Post toEntity(){
             Post post = Post.builder()
-                    .user(user)
-                    .nickName(nickName)
                     .title(title)
                     .content(content)
-                    .imageUrl(imageUrl)
                     .completed(completed)
                     .category(category)
                     .build();
@@ -49,8 +38,16 @@ public class PostDto {
         private String content;
         private Boolean completed;
         private String category;
-        private String imageUrl;
-        private String imageName;
+
+        public Post toEntity(){
+            Post post = Post.builder()
+                    .title(title)
+                    .content(content)
+                    .completed(completed)
+                    .category(category)
+                    .build();
+            return post;
+        }
     }
 
     @AllArgsConstructor
@@ -66,7 +63,6 @@ public class PostDto {
         private String imageUrl;
         private String createdAt;
         private Boolean completed;
-        private List<Comment> comment;
 
         public DetailResponse(Post post) {
             this.nickName = post.getNickName();
@@ -75,7 +71,6 @@ public class PostDto {
             this.createdAt = String.valueOf(post.getCreatedAt());
             this.imageUrl = post.getImageUrl();
             this.completed = post.getCompleted();
-            this.comment = post.getComment();
         }
     }
 

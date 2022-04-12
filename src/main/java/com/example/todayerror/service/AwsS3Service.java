@@ -50,7 +50,6 @@ public class AwsS3Service {
         Map<String , String> result = new HashMap<>();
             result.put("url" , String.valueOf(amazonS3.getUrl(bucket,fileName)));
             result.put("fileName" , fileName);
-
         return result;
     }
 
@@ -76,21 +75,3 @@ public class AwsS3Service {
         }
     }
 }
-
-
-// {
-// 	"Version": "2012-10-17",
-// 	"Statement": [
-// 		{
-// 			"Sid": "PublicReadGetObject",
-// 			"Effect": "Allow",
-// 			"Principal": "*",
-// 			"Action": [
-// 				"s3:GetObject",
-// 				"s3:DeleteObject",
-// 				"s3:PutObject"
-// 			],
-// 			"Resource": "arn:aws:s3:::todayerror/*"
-// 		}
-// 	]
-// }

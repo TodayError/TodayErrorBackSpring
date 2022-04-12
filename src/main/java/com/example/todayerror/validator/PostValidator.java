@@ -6,22 +6,42 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PostValidator {
     public static void validatePostSaveRegister(PostDto.SaveRequest postDto , MultipartFile multipartFile, User user) {
-        User validUser = user;
+
         String nickName = user.getUsername();
         String title = postDto.getTitle();
         String content = postDto.getContent();
         String category = postDto.getCategory();
         Boolean completed = postDto.getCompleted();
 
-        if (validUser.equals(null) || nickName.equals(null)){
-            throw new NullPointerException("로그인 회원가입이 되어있지 않은 사용자입니다.");
+        if (user.equals(null) || nickName.equals(null)){
+            throw new NullPointerException("로그인이 되어있지 않은 사용자입니다.");
         }
 
-        if (title.equals(null) || content.equals(null)){
+        if (title.equals(" ") || content.equals(" ")){
             throw new NullPointerException("게시글 제목과 내용을 확인해주세요");
         }
 
-        if (category.equals(null) || completed.equals(null)){
+        if (category.equals(" ") || completed.equals(" ")){
+            throw new NullPointerException("카테고리와 에러의 해결여부를 확인해주세요");
+        }
+
+        if (multipartFile.equals(null)){
+            throw new NullPointerException("사진을 등록해주세요");
+        }
+    }
+
+    public static void validatePostPutRegister(MultipartFile multipartFile, PostDto.PutRequest postDto) {
+
+        String title = postDto.getTitle();
+        String content = postDto.getContent();
+        String category = postDto.getCategory();
+        Boolean completed = postDto.getCompleted();
+
+        if (title.equals(" ") || content.equals(" ")){
+            throw new NullPointerException("게시글 제목과 내용을 확인해주세요");
+        }
+
+        if (category.equals(" ") || completed.equals(" ")){
             throw new NullPointerException("카테고리와 에러의 해결여부를 확인해주세요");
         }
 
