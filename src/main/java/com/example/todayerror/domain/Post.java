@@ -2,7 +2,6 @@ package com.example.todayerror.domain;
 
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,17 +27,18 @@ public class Post extends Timestamped{
     @Column
     private String content;
 
+    @Column(columnDefinition = "boolean default false")
+    private Boolean completed;
+
+    @Column
+    private String category;
+
     @Column
     private String imageUrl;
 
     @Column
     private String imageFilename;
 
-    @Column
-    private String category;
-
-    @Column(columnDefinition = "boolean default false")
-    private Boolean completed;
 
     //게시글은 여러개의 댓글을 가질 수 있기에 onetomany
     @OneToMany

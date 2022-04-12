@@ -1,14 +1,16 @@
 package com.example.todayerror.controller;
 
-import com.example.todayerror.dto.UserDto.KakaoUserResponseDto;
 import com.example.todayerror.dto.UserDto.SignupRequestDto;
+import com.example.todayerror.dto.UserDto.KakaoUserResponseDto;
 import com.example.todayerror.service.KakaoUserService;
 import com.example.todayerror.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
