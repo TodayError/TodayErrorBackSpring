@@ -25,6 +25,7 @@ public class CommentService {
 
     //댓글 조회
     public List<Comment> getComment(Long postId) {
+
         return commentRepository.findAllByPostOrderByCreatedAtDesc(postId);
     }
 
@@ -51,8 +52,10 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않습니다.")
         );
+        Post post = comment.getPost();
         comment = comment.builder()
                 .comment(requestDto.getComment())
+                .post(post)
                 .build();
         commentRepository.save(comment);
     }

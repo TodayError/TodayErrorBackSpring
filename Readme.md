@@ -37,5 +37,9 @@
 
 <h2>API 설계</h2>
 
+아키텍처
+---
+
+![아키텍처](https://github.com/akrwkdrrr99/akrwkdrrr99.github.io/blob/master/assets/img/gitImg/architecture.png)
 
 
