@@ -5,7 +5,7 @@
 
 ##### 김승균(팀장)
 <p>
-<a hraf = "https://github.com/akrwkdrrr99"><img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=Github&logoColor=white"/></a>
+<a hraf="https://github.com/akrwkdrrr99"><img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=Github&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/>
 <img src="https://img.shields.io/badge/PhotoShop-31A8FF?style=flat-square&logo=AdobePhotoshop&logoColor=white"/>
 </p>
