@@ -56,10 +56,6 @@ public class AwsS3Service {
     public String deleteFile(String fileName) {
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
         amazonS3.deleteObject(request);
-
-        //amazonS3.deleteObject(bucket , fileName);
-        //amazonS3.deleteObject(new DeleteObjectRequest(bucket , fileName));
-
         return "삭제완료";
     }
 

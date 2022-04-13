@@ -42,7 +42,7 @@ public class PostService {
                 .nickName(user.getUsername())
                 .build();
         postRepository.save(post);
-        return new ResponseEntity("게시글 저장이 정상적으로 완료되었습니다.", HttpStatus.OK);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @Transactional
@@ -51,6 +51,7 @@ public class PostService {
         List<PostDto.MainResponse> postReponse = new ArrayList<>();
         for (Post post : posts) {
             PostDto.MainResponse postDto = PostDto.MainResponse.builder()
+                    .postId(post.getId())
                     .nickName(post.getNickName())
                     .title(post.getTitle())
                     .category(post.getCategory())
