@@ -37,5 +37,10 @@
 
 <h2>API 설계</h2>
 
+아키텍처
+---
+![architecture](https://user-images.githubusercontent.com/67248249/163121619-6a2665cb-c4a7-45ba-9743-191b5031410a.png)
+
+
 
 
