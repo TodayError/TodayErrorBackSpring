@@ -11,7 +11,7 @@
 <p>유혜민
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/></p>
 </a>
-<a href="링크">
+<a href="https://github.com/Dplo1514">
 <p>임인혁
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/></p>
 </a>
