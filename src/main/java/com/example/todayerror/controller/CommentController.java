@@ -33,14 +33,12 @@ public class CommentController {
 //        }
 //        return false;
 //    }
-        System.out.println(requestDto.getPostId());
-        System.out.println(requestDto.getComment());
         commentService.createComment(requestDto);
         return true;
     }
 
     @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
-    @GetMapping("/api/comment/{postId}")
+    @GetMapping("/comment/{postId}")
     public List<Comment> getComment(@PathVariable Long postId
 //                              @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
