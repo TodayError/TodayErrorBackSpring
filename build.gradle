@@ -32,6 +32,7 @@ dependencies {
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    // 버전 1.15에서 버전 1.5로 변경
     implementation 'commons-codec:commons-codec:1.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
