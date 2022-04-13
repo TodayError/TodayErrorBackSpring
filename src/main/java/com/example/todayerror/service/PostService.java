@@ -38,7 +38,7 @@ public class PostService {
         post = post.builder()
                 .imageFilename(map.get("fileName"))
                 .imageUrl(map.get("url"))
-                .user(user)
+                .user(joinUser)
                 .nickName(user.getUsername())
                 .build();
         postRepository.save(post);
@@ -101,10 +101,11 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<String> update(Long postId, MultipartFile multipartFile, PostDto.PutRequest postDto) {
+    public ResponseEntity<String> update(Long postId, MultipartFile multipartFile, PostDto.PutRequest postDto, User user){
         PostValidator.validatePostPutRegister(multipartFile, postDto);
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new NullPointerException("찾으시는 게시글이 존재하지 않습니다."));
+        validateCheckUser(user, post);
         awsS3Service.deleteFile(post.getImageFilename());
         Map<String, String> map = awsS3Service.uploadFile(multipartFile);
         post = postDto.toEntity();
@@ -116,9 +117,10 @@ public class PostService {
 
     //Delete Complete
     @Transactional
-    public ResponseEntity<String> delete(Long postId) {
+    public ResponseEntity<String> delete(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new NullPointerException("찾으시는 게시글이 존재하지 않습니다."));
+        validateCheckUser(user, post);
         postRepository.delete(post);
         awsS3Service.deleteFile(post.getImageFilename());
         return new ResponseEntity("success", HttpStatus.OK);
@@ -126,5 +128,11 @@ public class PostService {
 
     public String formmater(LocalDateTime localDateTime){
         return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(localDateTime);
+    }
+
+    private void validateCheckUser(User user, Post post) {
+        if (!user.equals(post.getUser())){
+            throw new IllegalArgumentException("삭제 권한이 없는 유저 입니다.");
+        }
     }
 }

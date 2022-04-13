@@ -1,6 +1,7 @@
 package com.example.todayerror.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,6 +43,7 @@ public class Post extends Timestamped{
 
     //게시글은 여러개의 댓글을 가질 수 있기에 onetomany
     @OneToMany
+    @JsonIgnoreProperties
     private List<Comment> comment;
 
     //회원은 여러개의 게시글을 가질 수 있기에 manytoone

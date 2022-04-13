@@ -43,12 +43,13 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public ResponseEntity postUpdate(@PathVariable Long postId ,
                                              @RequestPart("file") MultipartFile multipartFile,
-                                             @RequestPart("information") PostDto.PutRequest postDto){
-        return postService.update(postId , multipartFile , postDto);
+                                             @RequestPart("information") PostDto.PutRequest postDto
+                                             ,@AuthenticationPrincipal User user){
+        return postService.update(postId , multipartFile , postDto , user);
     }
 
     @DeleteMapping("/posts/{postId}")
-    public ResponseEntity postDelete(@PathVariable Long postId){
-        return postService.delete(postId);
+    public ResponseEntity postDelete(@PathVariable Long postId , @AuthenticationPrincipal User user){
+        return postService.delete(postId , user);
     }
 }
