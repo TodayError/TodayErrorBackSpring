@@ -39,7 +39,8 @@
 
 아키텍처
 ---
+![architecture](https://user-images.githubusercontent.com/67248249/163121619-6a2665cb-c4a7-45ba-9743-191b5031410a.png)
 
-![아키텍처](https://github.com/akrwkdrrr99/akrwkdrrr99.github.io/blob/master/assets/img/gitImg/architecture.png)
+
 
 
