@@ -1,7 +1,6 @@
 package com.example.todayerror.service;
 
 import com.example.todayerror.domain.User;
-import com.example.todayerror.dto.UserDto.KakaoUserInfoDto;
 import com.example.todayerror.dto.UserDto.KakaoUserRequestDto;
 import com.example.todayerror.dto.UserDto.KakaoUserResponseDto;
 import com.example.todayerror.repository.UserRepository;
@@ -19,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
