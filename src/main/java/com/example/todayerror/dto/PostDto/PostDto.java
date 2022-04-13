@@ -56,7 +56,6 @@ public class PostDto {
     @Data
     @Getter
     public static class DetailResponse {
-
         private String nickName;
         private String title;
         private String content;
@@ -64,14 +63,6 @@ public class PostDto {
         private String createdAt;
         private Boolean completed;
 
-        public DetailResponse(Post post) {
-            this.nickName = post.getNickName();
-            this.title = post.getTitle();
-            this.content = post.getContent();
-            this.createdAt = String.valueOf(post.getCreatedAt());
-            this.imageUrl = post.getImageUrl();
-            this.completed = post.getCompleted();
-        }
     }
 
     @AllArgsConstructor
@@ -80,6 +71,7 @@ public class PostDto {
     @Data
     @Getter
     public static class MainResponse {
+        private Long postId;
         private String nickName;
         private String title;
         private String category;
@@ -87,13 +79,5 @@ public class PostDto {
         private Boolean completed;
         private String createdAt;
 
-        public MainResponse(Post post) {
-            this.nickName = post.getNickName();
-            this.title = post.getTitle();
-            this.category = post.getCategory();
-            this.imageUrl = post.getImageUrl();
-            this.completed = post.getCompleted();
-            this.createdAt = String.valueOf(post.getCreatedAt());
-        }
     }
 }
