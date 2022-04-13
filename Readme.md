@@ -17,4 +17,4 @@
 </a>
 
 <h2>ERD</h2>
-<img src="![스크린샷 2022-04-13 오후 1 19 37](https://user-images.githubusercontent.com/89297942/163099424-f8e29d37-1a53-4cab-af1a-ba24d1aae123.png)"/></p>
+<img src="https://user-images.githubusercontent.com/89297942/163099424-f8e29d37-1a53-4cab-af1a-ba24d1aae123.png"/></p>
