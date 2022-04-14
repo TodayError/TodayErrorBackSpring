@@ -1,6 +1,7 @@
 package com.example.todayerror.domain;
 
 import com.example.todayerror.dto.CommentDto;
+import com.example.todayerror.dto.PostDto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,5 +31,9 @@ public class Comment extends Timestamped {
     //회원은 여러개의 댓글을 가질 수 있기에 manytoone
     @ManyToOne
     private User user;
+
+    public void update(CommentDto putRequest) {
+        this.comment = putRequest.getComment();
+    }
 
 }

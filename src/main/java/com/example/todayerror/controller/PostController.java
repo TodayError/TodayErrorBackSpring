@@ -1,21 +1,18 @@
 package com.example.todayerror.controller;
 
-import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
-import com.example.todayerror.security.UserDetailsImpl;
 import com.example.todayerror.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
-
     private final PostService postService;
 
     @GetMapping("/main")
@@ -34,23 +31,22 @@ public class PostController {
     }
 
     @PostMapping("/file")
-    public ResponseEntity postSave(@RequestPart("file") MultipartFile multipartFile ,
+    public ResponseEntity<HttpStatus> postSave(@RequestPart("file") MultipartFile multipartFile ,
                                    @RequestPart("information") PostDto.SaveRequest postDto ,
-                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
-        User user = userDetails.getUser();
+                                   @RequestHeader("Authorization") String user){
         return postService.save(multipartFile , postDto , user);
     }
 
     @PutMapping("/posts/{postId}")
-    public ResponseEntity postUpdate(@PathVariable Long postId ,
+    public ResponseEntity<HttpStatus> postUpdate(@PathVariable Long postId ,
                                              @RequestPart("file") MultipartFile multipartFile,
-                                             @RequestPart("information") PostDto.PutRequest postDto
-                                             ,@AuthenticationPrincipal User user){
+                                             @RequestPart("information") PostDto.PutRequest postDto,
+                                                 @RequestHeader("Authorization") String user){
         return postService.update(postId , multipartFile , postDto , user);
     }
 
     @DeleteMapping("/posts/{postId}")
-    public ResponseEntity postDelete(@PathVariable Long postId , @AuthenticationPrincipal User user){
+    public ResponseEntity<HttpStatus> postDelete(@PathVariable Long postId , @RequestHeader("Authorization") String user){
         return postService.delete(postId , user);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.www.NonceExpiredException;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.FilterChain;
@@ -36,12 +37,10 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
 
         // JWT 값을 담아주는 변수 TokenPayload
         String tokenPayload = request.getHeader("Authorization");
-        System.out.println("request Authorization header : " + tokenPayload + " / " + (tokenPayload == null?"null 토큰.":"값이 존재하는 토큰."));
         if (tokenPayload == null) {
-            throw new IllegalArgumentException("유효한 토큰이 없습니다");
-//            response.sendRedirect("/");
-//            return null;
+            throw new NonceExpiredException("토큰 값 테스트");
         }
+
         JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(
                 extractor.extract(tokenPayload, request));
 
