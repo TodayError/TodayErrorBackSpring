@@ -31,4 +31,8 @@ public class Comment extends Timestamped {
     @ManyToOne
     private User user;
 
+    public void update(CommentDto RequestDto) {
+        this.comment = RequestDto.getComment();
+
+    }
 }
