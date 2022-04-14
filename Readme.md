@@ -35,7 +35,6 @@
 <h2>ERD 설계</h2>
 <img src="https://user-images.githubusercontent.com/89297942/163099424-f8e29d37-1a53-4cab-af1a-ba24d1aae123.png"/></p>
 
-<h2>API 설계</h2>
 
 아키텍처
 ---
