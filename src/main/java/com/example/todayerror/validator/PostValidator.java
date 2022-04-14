@@ -2,6 +2,7 @@ package com.example.todayerror.validator;
 
 import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
+import com.example.todayerror.security.UserDetailsImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 public class PostValidator {

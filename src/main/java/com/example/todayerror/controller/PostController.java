@@ -2,16 +2,16 @@ package com.example.todayerror.controller;
 
 import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
+import com.example.todayerror.security.UserDetailsImpl;
 import com.example.todayerror.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
@@ -35,8 +35,9 @@ public class PostController {
 
     @PostMapping("/file")
     public ResponseEntity postSave(@RequestPart("file") MultipartFile multipartFile ,
-                                             @RequestPart("information") PostDto.SaveRequest postDto ,
-                                             @AuthenticationPrincipal User user){
+                                   @RequestPart("information") PostDto.SaveRequest postDto ,
+                                   @AuthenticationPrincipal UserDetailsImpl userDetails){
+        User user = userDetails.getUser();
         return postService.save(multipartFile , postDto , user);
     }
 

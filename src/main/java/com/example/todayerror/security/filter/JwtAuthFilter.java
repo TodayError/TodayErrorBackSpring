@@ -36,11 +36,12 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
 
         // JWT 값을 담아주는 변수 TokenPayload
         String tokenPayload = request.getHeader("Authorization");
+        System.out.println("request Authorization header : " + tokenPayload + " / " + (tokenPayload == null?"null 토큰.":"값이 존재하는 토큰."));
         if (tokenPayload == null) {
+            throw new IllegalArgumentException("유효한 토큰이 없습니다");
 //            response.sendRedirect("/");
-            return null;
+//            return null;
         }
-
         JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(
                 extractor.extract(tokenPayload, request));
 

@@ -2,10 +2,12 @@ package com.example.todayerror.controller;
 
 import com.example.todayerror.dto.UserDto.SignupRequestDto;
 import com.example.todayerror.dto.UserDto.KakaoUserResponseDto;
+import com.example.todayerror.security.UserDetailsImpl;
 import com.example.todayerror.service.KakaoUserService;
 import com.example.todayerror.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,4 +40,10 @@ public class UserController {
         KakaoUserResponseDto kakaoUserResponseDto = kakaoUserService.kakaoLogin(code, response);
         return ResponseEntity.ok().body(kakaoUserResponseDto);
     }
+
+//    @PostMapping("/isLogin")
+//    public ResponseEntity<String> getUserProfile(@AuthenticationPrincipal UserDetailsImpl userDetails){
+//        System.out.println(userDetails.getUsername());
+//        return ResponseEntity.ok().body(userDetails.getUsername());
+//    }
 }

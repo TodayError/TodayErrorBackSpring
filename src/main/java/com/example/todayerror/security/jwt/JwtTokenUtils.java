@@ -22,6 +22,7 @@ public class JwtTokenUtils {
     public static final String JWT_SECRET = "jwt_secret_!@#$%";
 
     public static String generateJwtToken(UserDetailsImpl userDetails) {
+        System.out.println("userDetails.getUsername() = " + userDetails.getUsername());
         String token = null;
         try {
             token = JWT.create()
@@ -33,6 +34,7 @@ public class JwtTokenUtils {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("JwtTokenUtils token = " + token);
         return token;
     }
 

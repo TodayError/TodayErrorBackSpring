@@ -5,6 +5,7 @@ import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
 import com.example.todayerror.repository.PostRepository;
 import com.example.todayerror.repository.UserRepository;
+import com.example.todayerror.security.UserDetailsImpl;
 import com.example.todayerror.validator.PostValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
