@@ -38,7 +38,7 @@ public class PostDto {
         private String title;
         private String content;
         private String imageUrl;
-        private String createdAt;
+        private String modifiedAt;
         private Boolean completed;
 
     }
@@ -54,7 +54,7 @@ public class PostDto {
         private String category;
         private String imageUrl;
         private Boolean completed;
-        private String createdAt;
+        private String modifiedAt;
 
     }
 }

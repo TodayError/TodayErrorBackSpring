@@ -10,10 +10,8 @@ import com.example.todayerror.validator.PostValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,7 +60,7 @@ public class PostService {
                     .title(post.getTitle())
                     .category(post.getCategory())
                     .completed(post.getCompleted())
-                    .createdAt(formmater(post.getCreatedAt()))
+                    .modifiedAt(formmater(post.getModifiedAt()))
                     .imageUrl(post.getImageUrl())
                     .build();
             postReponse.add(postDto);
@@ -80,7 +78,7 @@ public class PostService {
                     .nickName(post.getNickName())
                     .title(post.getTitle())
                     .category(post.getCategory())
-                    .createdAt(formmater(post.getCreatedAt()))
+                    .modifiedAt(formmater(post.getModifiedAt()))
                     .completed(post.getCompleted())
                     .imageUrl(post.getImageUrl())
                     .build();
@@ -100,7 +98,7 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .imageUrl(post.getImageUrl())
-                .createdAt(formmater(post.getCreatedAt()))
+                .modifiedAt(formmater(post.getModifiedAt()))
                 .completed(post.getCompleted())
                 .build();
         return new ResponseEntity(postDto, HttpStatus.OK);
