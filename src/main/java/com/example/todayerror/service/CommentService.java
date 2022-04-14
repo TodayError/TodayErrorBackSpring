@@ -77,7 +77,7 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public ResponseEntity<String> update(Long id, String username, CommentDto requestDto) {
+    public ResponseEntity update(Long id, String username, CommentDto requestDto) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않습니다.")
         );
@@ -86,7 +86,11 @@ public class CommentService {
         }
 
         comment.update(requestDto);
-        return new ResponseEntity("success", HttpStatus.OK);
+        CommentDto.commentUpdateResponse commentDto = CommentDto.commentUpdateResponse.builder()
+                .commentId(comment.getId())
+                .modifiedAt(commentFormmater(comment.getModifiedAt()))
+                .build();
+        return ResponseEntity.ok().body(commentDto);
     }
 
 

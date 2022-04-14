@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
-
     private final JwtDecoder jwtDecoder;
     // 댓글 작성
     @ApiOperation(value = "댓글 Post", notes = "댓글을 저장합니다.")
@@ -31,12 +30,6 @@ public class CommentController {
         return new ResponseEntity("실패", HttpStatus.BAD_REQUEST);
     }
 
-
-    //    @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
-//    @GetMapping("/comment/{postId}")
-//    public List<Comment> getComment(@PathVariable Long postId) {
-//        return commentService.getComment(postId);
-//    }
     //수정
     @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
     @GetMapping("/comment/{postId}")

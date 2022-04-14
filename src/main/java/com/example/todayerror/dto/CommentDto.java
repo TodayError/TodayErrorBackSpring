@@ -26,4 +26,13 @@ public class CommentDto {
         private String createdAt;
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Data
+    public static class commentUpdateResponse {
+        private Long commentId;
+        private String modifiedAt;
+    }
+
 }
