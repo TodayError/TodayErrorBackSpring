@@ -32,7 +32,7 @@ public class CommentController {
 
     //수정
     @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
-    @GetMapping("/comment/{postId}")
+    @GetMapping("/comments/{postId}")
     public ResponseEntity<CommentDto> getComment(@PathVariable Long postId) {
         return new ResponseEntity(commentService.getComment(postId), HttpStatus.OK);
     }
