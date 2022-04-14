@@ -15,6 +15,7 @@ public class CommentDto {
         private Long commentId;
         private String comment;
         private String createdAt;
+        private String userName;
     }
 
     @AllArgsConstructor
