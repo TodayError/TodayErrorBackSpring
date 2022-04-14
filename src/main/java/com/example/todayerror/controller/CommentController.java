@@ -1,18 +1,13 @@
 package com.example.todayerror.controller;
 
-import com.example.todayerror.domain.Comment;
 import com.example.todayerror.dto.CommentDto;
-import com.example.todayerror.security.UserDetailsImpl;
 import com.example.todayerror.security.jwt.JwtDecoder;
 import com.example.todayerror.service.CommentService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,12 +30,6 @@ public class CommentController {
         return new ResponseEntity("실패", HttpStatus.BAD_REQUEST);
     }
 
-
-//    @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
-//    @GetMapping("/comment/{postId}")
-//    public List<Comment> getComment(@PathVariable Long postId) {
-//        return commentService.getComment(postId);
-//    }
     //수정
     @ApiOperation(value = "댓글 Get", notes = "댓글을 출력합니다.")
     @GetMapping("/comment/{postId}")
@@ -53,9 +42,9 @@ public class CommentController {
     @ApiOperation(value = "댓글 Update", notes = "댓글을 수정합니다.")
     @PutMapping("/comment/{commentId}")
     public ResponseEntity updateComment(@PathVariable Long commentId,
-                             @RequestHeader("Authorization") String user,
-                              @RequestBody CommentDto requestDto
-                              ) {
+                                        @RequestHeader("Authorization") String user,
+                                        @RequestBody CommentDto requestDto
+    ) {
         String username = jwtDecoder.decodeUsername(user);
         return commentService.update(commentId, username, requestDto);
     }
@@ -64,7 +53,7 @@ public class CommentController {
     @ApiOperation(value = "댓글 Delete", notes = "댓글을 삭제합니다.")
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity deleteReply(@PathVariable Long commentId,
-                              @RequestHeader("Authorization") String user
+                                      @RequestHeader("Authorization") String user
     ) {
         String username = jwtDecoder.decodeUsername(user);
         return commentService.deleteComment(commentId, username);

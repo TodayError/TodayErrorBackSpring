@@ -1,6 +1,7 @@
 package com.example.todayerror.domain;
 
 import com.example.todayerror.dto.CommentDto;
+import com.example.todayerror.dto.PostDto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,8 +32,8 @@ public class Comment extends Timestamped {
     @ManyToOne
     private User user;
 
-    public void update(CommentDto RequestDto) {
-        this.comment = RequestDto.getComment();
-
+    public void update(CommentDto putRequest) {
+        this.comment = putRequest.getComment();
     }
+
 }

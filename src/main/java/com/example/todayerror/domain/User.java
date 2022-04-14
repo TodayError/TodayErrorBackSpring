@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class User extends Timestamped {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -28,7 +28,6 @@ public class User extends Timestamped {
     public User(SignupRequestDto signupRequestDto, String enPassword){
         // 회원가입 입력값 유효성 검사
         UserInfoValidator.validateUserRegister(signupRequestDto);
-
         this.username = signupRequestDto.getNickname();
         this.password = enPassword;
     }
