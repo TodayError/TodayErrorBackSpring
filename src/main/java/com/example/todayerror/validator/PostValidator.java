@@ -1,13 +1,12 @@
 package com.example.todayerror.validator;
 
-import com.example.todayerror.domain.User;
 import com.example.todayerror.dto.PostDto.PostDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class PostValidator {
-    public static void validatePostSaveRegister(PostDto.SaveRequest postDto , MultipartFile multipartFile, User user) {
+    public static void validatePostSaveRegister(PostDto.SaveRequest postDto , MultipartFile multipartFile, String user) {
 
-        String nickName = user.getUsername();
+        String nickName = user;
         String title = postDto.getTitle();
         String content = postDto.getContent();
         String category = postDto.getCategory();
