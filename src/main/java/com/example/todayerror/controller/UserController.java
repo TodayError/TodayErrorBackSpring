@@ -40,10 +40,4 @@ public class UserController {
         KakaoUserResponseDto kakaoUserResponseDto = kakaoUserService.kakaoLogin(code, response);
         return ResponseEntity.ok().body(kakaoUserResponseDto);
     }
-
-//    @PostMapping("/isLogin")
-//    public ResponseEntity<String> getUserProfile(@AuthenticationPrincipal UserDetailsImpl userDetails){
-//        System.out.println(userDetails.getUsername());
-//        return ResponseEntity.ok().body(userDetails.getUsername());
-//    }
 }

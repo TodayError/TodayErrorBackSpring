@@ -4,9 +4,11 @@ import com.example.todayerror.dto.UserDto.SignupRequestDto;
 import com.example.todayerror.validator.UserInfoValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Setter
 @Getter
 @Entity
 @NoArgsConstructor

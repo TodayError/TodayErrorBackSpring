@@ -131,6 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // main 페이지 허용
         skipPathList.add("GET,/api/**");
 
+
         // post 페이지 허용
         skipPathList.add("POST,/api/**");
         skipPathList.add("PUT,/api/**");
@@ -168,7 +169,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true) ;
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedOrigin("http://localhost:3000"); // local 테스트 시
         // 수정 필요
         configuration.addAllowedOrigin("http://example.amazonaws.com"); // 배포 시

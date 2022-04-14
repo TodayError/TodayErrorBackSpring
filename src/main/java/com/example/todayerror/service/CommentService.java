@@ -35,12 +35,17 @@ public class CommentService {
 //    }
     //수정로직
     public ResponseEntity<CommentDto> getComment(Long postId) {
-        List<Comment> getPostidComment = commentRepository.findAllByPostOrderByCreatedAtDesc(postId);
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new NullPointerException("게시글 존재 x")
+        );
+
+        List<Comment> getPostidComment = commentRepository.findByPost(post);
         List<CommentDto.Response> postIdResponse = new ArrayList<>();
         for(Comment comment : getPostidComment) {
             CommentDto.Response commentDto = CommentDto.Response.builder()
                     .commentId(comment.getId())
                     .comment(comment.getComment())
+                    .userName(comment.getUser().getUsername())
                     .createdAt(commentFormmater(comment.getCreatedAt()))
                     .build();
             postIdResponse.add(commentDto);
