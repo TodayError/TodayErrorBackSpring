@@ -1,6 +1,7 @@
 package com.example.todayerror.domain;
 
 
+import com.example.todayerror.dto.PostDto.PostDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -49,4 +50,13 @@ public class Post extends Timestamped{
     //회원은 여러개의 게시글을 가질 수 있기에 manytoone
     @ManyToOne
     private User user;
+
+    public void update(PostDto.PutRequest putRequest , String imageUrl , String imageFilename) {
+        this.title = putRequest.getTitle();
+        this.content = putRequest.getContent();
+        this.completed = putRequest.getCompleted();
+        this.category = putRequest.getCategory();
+        this.imageUrl = imageUrl;
+        this.imageFilename = imageFilename;
+    }
 }
